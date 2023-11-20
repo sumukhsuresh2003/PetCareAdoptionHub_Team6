@@ -8,6 +8,7 @@ function Adopt() {
   const [adoptionForm, setAdoptionForm] = useState({
     email: '',
     name: '',
+    age: '',
     petId: '',
     petName: '',
   });
@@ -70,11 +71,17 @@ function Adopt() {
 
   const handleSubmitAdoptionForm = async (e) => {
     e.preventDefault();
-  if (adoptionForm.petId<0|| adoptionForm.petId>1000){
-    alert('petId should be between 1 and 999');
-  } 
+  const formattedPetId = String(adoptionForm.petId).padStart(3, '0');
+  if (parseInt(adoptionForm.age, 10) <= 21) {
+    alert('Owner must be above the age of 21.');
+    return;
+  }  
+  if (formattedPetId < '001' || formattedPetId > '999') {
+    alert('Invalid Pet ID!');
+    return;
+  }
   else{
-    alert('Adoption application successfully submitted');
+    alert('Congratulations! Your adoption application has been successfully submitted.\nExpect a notification from us soon. Thank you for choosing to adopt :)');
   }
     try {
       // checkPetId()
@@ -93,6 +100,7 @@ function Adopt() {
       setAdoptionForm({
         email: '',
         name: '',
+        age: '',
         petId: '',
         petName: '',
       });
@@ -197,7 +205,6 @@ function Adopt() {
               />
             </label>
             <br />
-            
             <label>
               Name:
               <input
@@ -211,9 +218,21 @@ function Adopt() {
             </label>
             <br />
             <label>
+              Age:
+              <input
+                type="number"
+                name="age"
+                value={adoptionForm.age}
+                onChange={handleInputChange}
+                required
+                style={{ width: '100%', padding: '8px', marginBottom: '10px' }}
+              />
+            </label>
+            <br />
+            <label>
               Pet ID:
               <input
-                type="text"
+                type="number"
                 name="petId"
                 value={adoptionForm.petId}
                 onChange={handleInputChange}
